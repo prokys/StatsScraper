@@ -19,11 +19,12 @@ public class App
 {
     public static void main( String[] args ){
         try (Workbook workbook = new XSSFWorkbook()){
-            Sheet sheet = workbook.createSheet("Proky");
+
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             WebDriver driver = new ChromeDriver(options);
             driver.get("https://www.ceskyflorbal.cz/person/detail/player/0603030371");
+
             Actions actions = new Actions(driver);
             actions.scrollToElement(driver.findElement(By.xpath("//img[@class='ProfilePerson--Table-icon plus']"))).perform();
             actions.moveToElement(driver.findElement(By.xpath("//img[@class='ProfilePerson--Table-icon plus']"))).perform();
@@ -31,6 +32,7 @@ public class App
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@class='ProfilePerson--Table-icon plus']"))).click();
             List<WebElement> tbodyElements = driver.findElements(By.cssSelector("tbody.js-collButton-target"));
 
+            Sheet sheet = workbook.createSheet("Proky");
 
             int rowNum = 0;
             for (WebElement tbodyElement : tbodyElements) {
@@ -47,10 +49,7 @@ public class App
                             Cell cell = row.createCell(colNum++);
                             cell.setCellValue((Integer.parseInt(tdElement.getText())));
                         }
-
-//                        System.out.println(tdElement.getText());
                     }
-
                 }
             }
             try(FileOutputStream fileOut = new FileOutputStream("Proky.xlsx")){
@@ -62,5 +61,3 @@ public class App
         }
     }
 }
-
-
