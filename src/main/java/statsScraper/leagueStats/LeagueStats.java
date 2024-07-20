@@ -22,6 +22,7 @@ public class LeagueStats {
         this.matches = matches;
         this.goals = goals;
         this.assists = assists;
+        this.combinedGoalsAndAssists = combinedGoalsAndAssists;
         this.penalties = penalties;
     }
 
@@ -79,6 +80,14 @@ public class LeagueStats {
 
     public void setPenalties(int penalties) {
         this.penalties = penalties;
+    }
+
+    public int getCombinedGoalsAndAssists() {
+        return combinedGoalsAndAssists;
+    }
+
+    public void setCombinedGoalsAndAssists(int combinedGoalsAndAssists) {
+        this.combinedGoalsAndAssists = combinedGoalsAndAssists;
     }
 
     @Override

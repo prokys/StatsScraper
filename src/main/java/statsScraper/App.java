@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statsScraper.leagueStats.LeagueStats;
+import statsScraper.leagueStats.Player;
 
 import java.io.FileOutputStream;
 import java.time.Duration;
@@ -56,8 +57,7 @@ public class App {
                 }
             }
         driver.quit();
-        for (LeagueStats stat: listOfAllStats){
-            System.out.println(stat);
-        }
+        Player player = new Player("Prokop Ferdan", listOfAllStats);
+        System.out.println(player);
     }
 }
