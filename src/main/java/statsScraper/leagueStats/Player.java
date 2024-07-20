@@ -27,6 +27,18 @@ public class Player {
         }
     }
 
+    public Player(String fullName, String league, int matches, int goals, int assists, int combinedGoalsAndAssists) {
+        this.fullName = fullName;
+        this.league = league;
+        this.matches = matches;
+        this.goals = goals;
+        this.assists = assists;
+        this.combinedGoalsAndAssists = combinedGoalsAndAssists;
+    }
+    public Player() {
+
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -41,6 +53,38 @@ public class Player {
 
     public void setLeague(String league) {
         this.league = league;
+    }
+
+    public int getMatches() {
+        return matches;
+    }
+
+    public void setMatches(int matches) {
+        this.matches = matches;
+    }
+
+    public int getGoals() {
+        return goals;
+    }
+
+    public void setGoals(int goals) {
+        this.goals = goals;
+    }
+
+    public int getAssists() {
+        return assists;
+    }
+
+    public void setAssists(int assists) {
+        this.assists = assists;
+    }
+
+    public int getCombinedGoalsAndAssists() {
+        return combinedGoalsAndAssists;
+    }
+
+    public void setCombinedGoalsAndAssists(int combinedGoalsAndAssists) {
+        this.combinedGoalsAndAssists = combinedGoalsAndAssists;
     }
 
     @Override
