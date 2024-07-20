@@ -10,15 +10,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import statsScraper.leagueStats.LeagueStats;
+
 import java.io.FileOutputStream;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class App
-{
+public class App {
+    public static List<LeagueStats> listOfAllStats = new ArrayList<>();
     public static void main( String[] args ){
-        try (Workbook workbook = new XSSFWorkbook()){
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
@@ -32,32 +34,30 @@ public class App
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@class='ProfilePerson--Table-icon plus']"))).click();
             List<WebElement> tbodyElements = driver.findElements(By.cssSelector("tbody.js-collButton-target"));
 
-            Sheet sheet = workbook.createSheet("Proky");
 
-            int rowNum = 0;
+
             for (WebElement tbodyElement : tbodyElements) {
                 List<WebElement> trElements = tbodyElement.findElements(By.tagName("tr"));
                 for (WebElement trElement : trElements) {
                     List<WebElement> tdElements = trElement.findElements(By.tagName("td"));
-                    Row row = sheet.createRow(rowNum++);
-                    int colNum = 0;
+                    List<String> scrapedValues = new ArrayList<>();
                     for (WebElement tdElement : tdElements) {
-                        if (colNum<3){
-                            Cell cell = row.createCell(colNum++);
-                            cell.setCellValue((tdElement.getText()));
-                        }else {
-                            Cell cell = row.createCell(colNum++);
-                            cell.setCellValue((Integer.parseInt(tdElement.getText())));
-                        }
+                            scrapedValues.add((tdElement.getText()));
                     }
+                    listOfAllStats.add(new LeagueStats(
+                            scrapedValues.get(0),
+                            scrapedValues.get(1),
+                            scrapedValues.get(2),
+                            Integer.parseInt(scrapedValues.get(3)),
+                            Integer.parseInt(scrapedValues.get(4)),
+                            Integer.parseInt(scrapedValues.get(5)),
+                            Integer.parseInt(scrapedValues.get(6)),
+                            Integer.parseInt(scrapedValues.get(7))));
                 }
             }
-            try(FileOutputStream fileOut = new FileOutputStream("Proky.xlsx")){
-                workbook.write(fileOut);
-            }
-            driver.close();
-        }catch (Exception e){
-            System.out.println(e);
+        driver.quit();
+        for (LeagueStats stat: listOfAllStats){
+            System.out.println(stat);
         }
     }
 }
