@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.*;
 import statsScraper.leagueStats.LeagueStats;
 import statsScraper.leagueStats.PlayerAllTimeStats;
+import statsScraper.leagueStats.PlayerSuperLeagueStats;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -20,11 +21,22 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000/")
 @RequestMapping("/player")
 public class LeagueStatsController {
+    private String playerName;
+    private List<LeagueStats> listOfAllStats = new ArrayList<>();
 
+    @GetMapping("/all")
+    public PlayerAllTimeStats countPlayerAllTimeStats(){
+        return new PlayerAllTimeStats(playerName, listOfAllStats);
+    }
 
-    @GetMapping("/{playerID}")
-    public PlayerAllTimeStats getPlayer(@PathVariable("playerID") String playerID){
-        List<LeagueStats> listOfAllStats = new ArrayList<>();
+    @GetMapping("/superleague")
+    public PlayerSuperLeagueStats PlayerSuperLeagueStats(){
+        return new PlayerSuperLeagueStats(playerName, listOfAllStats);
+    }
+
+    @GetMapping("/scrape/{playerID}")
+    public void getPlayer(@PathVariable("playerID") String playerID){
+        listOfAllStats.clear();
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
@@ -59,9 +71,8 @@ public class LeagueStatsController {
                         Integer.parseInt(scrapedValues.get(7))));
             }
         }
-        PlayerAllTimeStats playerAllTimeStats = new PlayerAllTimeStats(driver.findElement(By.xpath("//h1[@class=\"ProfilePerson-header--heading\"]")).getText(), listOfAllStats);
+        playerName = driver.findElement(By.xpath("//h1[@class=\"ProfilePerson-header--heading\"]")).getText();
         driver.quit();
-        return playerAllTimeStats;
 
     }
 }

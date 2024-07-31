@@ -2,16 +2,8 @@ package statsScraper.leagueStats;
 
 import java.util.List;
 
-public class PlayerAllTimeStats extends Stats{
-    private String fullName;
+public class PlayerAllTimeStats extends Player {
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
     public PlayerAllTimeStats(String fullName, List<LeagueStats> leagueStats){
         setFullName(fullName);
         setLeague("All leagues");
