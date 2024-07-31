@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.*;
 import statsScraper.leagueStats.LeagueStats;
-import statsScraper.leagueStats.Player;
+import statsScraper.leagueStats.PlayerAllTimeStats;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class LeagueStatsController {
 
 
     @GetMapping("/{playerID}")
-    public Player getPlayer(@PathVariable("playerID") String playerID){
+    public PlayerAllTimeStats getPlayer(@PathVariable("playerID") String playerID){
         List<LeagueStats> listOfAllStats = new ArrayList<>();
 
         ChromeOptions options = new ChromeOptions();
@@ -59,9 +59,9 @@ public class LeagueStatsController {
                         Integer.parseInt(scrapedValues.get(7))));
             }
         }
-        Player player = new Player(driver.findElement(By.xpath("//h1[@class=\"ProfilePerson-header--heading\"]")).getText(), listOfAllStats);
+        PlayerAllTimeStats playerAllTimeStats = new PlayerAllTimeStats(driver.findElement(By.xpath("//h1[@class=\"ProfilePerson-header--heading\"]")).getText(), listOfAllStats);
         driver.quit();
-        return player;
+        return playerAllTimeStats;
 
     }
 }
